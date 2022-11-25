@@ -33,8 +33,8 @@ app.post('/', async (req, res) => {
     });
 });
 
-app.put('/', async (req, res) => {
-    await editNote(req.body.id, req.body.title);
+app.put('/:id', async (req, res) => {
+    await editNote(req.params.id, req.body.title);
     res.render('index', {
         title: 'Express App',
         notes: await getNotes(),

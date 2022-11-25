@@ -65,10 +65,11 @@ async function removeNote(id) {
 }
 
 async function editNote(id, title) {
-    return await fetch(`/`, {
+    return await fetch(`/${id}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
         },
         body: JSON.stringify({ id: id, title: title })
     });
