@@ -1,4 +1,4 @@
-let text;
+let title;
 document.addEventListener('click', (event) => {
     if (event.target.dataset.type === 'remove') {
         const id = event.target.dataset.id;
@@ -9,8 +9,8 @@ document.addEventListener('click', (event) => {
     if (event.target.dataset.type === 'edit') {
         const id = event.target.dataset.id;
         const element = event.target.closest('li');
-        text = element.firstElementChild.textContent;
-        renderEditForm(element, text, id);
+        title = element.firstElementChild.textContent;
+        renderEditForm(element, title, id);
     }
 
     if (event.target.dataset.type === 'confirm') {
@@ -18,9 +18,9 @@ document.addEventListener('click', (event) => {
         const element = event.target.closest('li');
         const editText = element.querySelector('.form-control').value;
         if (editText.trim() !== '') {
-            text = editText.trim();
-            editNote(id, text).then(() => {
-                renderStaticForm(element, text, id);
+            title = editText.trim();
+            editNote({ id, title }).then(() => {
+                renderStaticForm(element, title, id);
             });
         } else {
             const isErrorMessage = element.querySelector('.error-message-block');
@@ -36,7 +36,7 @@ document.addEventListener('click', (event) => {
     if (event.target.dataset.type === 'cancel') {
         const id = event.target.dataset.id;
         const element = event.target.closest('li');
-        renderStaticForm(element, text, id);
+        renderStaticForm(element, title, id);
     }
 });
 
@@ -64,13 +64,13 @@ async function removeNote(id) {
     return await fetch(`/${id}`, { method: 'DELETE' });
 }
 
-async function editNote(id, title) {
-    return await fetch(`/${id}`, {
+async function editNote(note) {
+    return await fetch(`/${note.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
         },
-        body: JSON.stringify({ id: id, title: title })
+        body: JSON.stringify(note)
     });
 }
