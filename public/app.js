@@ -16,7 +16,7 @@ document.addEventListener('click', (event) => {
     if (event.target.dataset.type === 'confirm') {
         const id = event.target.dataset.id;
         const element = event.target.closest('li');
-        const editText = element.querySelector('.input').value;
+        const editText = element.querySelector('.form-control').value;
         if (editText.trim() !== '') {
             text = editText.trim();
             editNote(id, text).then(() => {
@@ -42,8 +42,8 @@ document.addEventListener('click', (event) => {
 
 function renderEditForm(element, text, id) {
     element.innerHTML = `
-    <div class="edit-title-form d-flex flex-column">
-        <input class="input" name="title" value="${text}">
+    <div class="edit-title-form d-flex flex-column flex-md-fill me-5">
+        <input class="form-control" name="title" value="${text}">
     </div>
     <div class="actions">
         <button class="btn btn-success confirm-button" data-type="confirm" data-id="${id}">Сохранить</button>
